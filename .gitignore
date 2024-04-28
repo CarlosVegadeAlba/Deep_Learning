@@ -6,3 +6,10 @@ apuntes.md
 Assigment_2/INF265v23-Project2.zip
 UDL_Answer_Booklet_Students.pdf
 UnderstandingDeepLearning_02_15_24_C.pdf
+Assigment_3/inf265_v24_project03_data/generated/data/*
+Assigment_3/inf265_v24_project03_data/generated/models/*
+Assigment_3/inf265_v24_project03_data/generated/words/*
+Assigment_3/inf265_v24_project03_data/generated/*.tsv
+Assigment_3/inf265_v24_project03_data/generated/*.pt
+Assigment_3/Text_data_tutorial/generated/*
+
