@@ -74,8 +74,6 @@ This potent technology will change the world to at least the same extent as elec
 
 ---
 
-
-
 # Chapter 2 - Supervised Learning
 
 To make the prediction, we need a model f[•] that takes input x and returns y, so:
@@ -108,7 +106,7 @@ A 1D **linear regression model** describes the relationship between input x and 
 
 We need a principled approach for deciding which parameters ϕ are better than others. To this end, we assign a numerical value to each choice of parameters that quantifies the degree of mismatch between the model and the data. We term this value the loss; a lower loss means a better fit.
 The mismatch is captured by the deviation between the model predictions f[xi , ϕ] (height of the line at xi ) and the ground truth outputs yi. These deviations are depicted
-as orange dashed lines. 
+as orange dashed lines.
 
 ![1716462951454](image/Apuntes/1716462951454.png)
 
@@ -120,37 +118,29 @@ There are only two parameters (the y-intercept ϕ0 and slope ϕ1 ), so we can ca
 
 ![1716463371703](image/Apuntes/1716463371703.png)
 
-
 ## Loss function / Cost function
 
 We term L[ϕ] the loss function or cost function. The goal is to find the parameters ϕ̂ that minimize this quantity:
 
 ![1716463299929](image/Apuntes/1716463299929.png)
 
-
 ## Training
-
 
 The process of finding parameters that minimize the loss is termed model fitting, training or learning. The basic method is to choose the initial parameters randomly and then improve them by “walking down” the loss function until we reach the bottom.
 One way to do this is to measure the gradient of the surface at the current position and take a step in the direction that is most steeply downhill. Then we repeat this process until the gradient is flat and we can improve no further.
 
-
 ## Testing
 
-Having trained the model, we want to know how it will perform in the real world. We do this by computing the loss on a separate set of test data. The degree to which the prediction accuracy generalizes to the test data depends in part on how representative and complete the training data is. However, it also depends on how expressive the model is. 
+Having trained the model, we want to know how it will perform in the real world. We do this by computing the loss on a separate set of test data. The degree to which the prediction accuracy generalizes to the test data depends in part on how representative and complete the training data is. However, it also depends on how expressive the model is.
 
 A simple model like a line might not be able to capture the true relationship between input and output. This is known as **underfitting**.
 Conversely, a very expressive model may describe statistical peculiarities of the training data that are atypical and lead to unusual predictions. This is known as **overfitting**.
 
-
-
 ---
-
-
 
 # Chapter 3 - Shallow neuronal networks
 
-Introduce the main ideas using an example network f[x, ϕ] that maps a scalar input x 
+Introduce the main ideas using an example network f[x, ϕ] that maps a scalar input x
 to a scalar output y and has ten parameters ϕ = {ϕ0 , ϕ1 , ϕ2 , ϕ3 , θ10 , θ11 , θ20 , θ21 , θ30 , θ31 }:
 
 ![1716464781413](image/Apuntes/1716464781413.png)
@@ -163,14 +153,12 @@ We can break down this calculation into three parts:
 - Second, we pass the three results through an **activation function a[•]**.
 - Finally, we weight the three resulting activations with ϕ1 , ϕ2 , and ϕ3 , sum them, and add an offset ϕ0
 
-
 To complete the description, we must define the **activation function** **a[•].** There are
 many possibilities, but the most common choice is the rectified linear unit or **ReLU:**
 
-    ![1716465103922](image/Apuntes/1716465103922.png)	
+    ![1716465103922](image/Apuntes/1716465103922.png)
 
 Returns Input if positive of 0 otherwise.
-
 
 Advantages of ReLU:
 
@@ -183,8 +171,111 @@ Limitations:
 1. "Dying" Neurons: This happens when many inputs to the neuron are negative, leading to the neuron never activating (output equals 0). If this occurs, the gradient through that neuron will always be 0, preventing it from learning.
 2. Exploding Gradients: in very deep networks, gradients can become very large, leading to the exploding gradient problem
 
-
 ## Matrix Multiplication
 
-
 ![1716466376963](image/Apuntes/1716466376963.png)
+
+## Terminology
+
+* Layers, neurons and weights:
+
+  ![1716473169696](image/Apuntes/1716473169696.png)
+* When we pass data through the network, the values of the inputs to the hidden layer (i.e., before the ReLU functions are applied) are termed **pre-activations**.
+* The values at the hidden layer (i.e., after the ReLU functions) are termed **activations**.
+* Neural network with at least one hidden layer is also called a **multi-layer perceptron, MLP**
+* Networks with one hidden layer (as described in this chapter) are sometimes referred to as **shallow neural networks**
+* Networks with multiple hidden layers (as described in the next chapter) are referred to as **deep neural networks**
+* Neural networks in which the connections form an acyclic graph (i.e., a graph with no loops, as in all the examples in this chapter) are referred to as **feed-forward networks**
+* If every element in one layer connects to every element in the next (as in all the examples in this chapter), the network is **fully connected**
+* **Weights** are the arrows and the offset parameters are the **biases**
+
+---
+
+# Chapter 4 - Deep neuronal networks
+
+Consider the general case of a deep network with two hidden layers, each containing three hidden units:
+
+![1716475362457](image/Apuntes/1716475362457.png)
+
+The first layer is defined by:
+
+![1716475891395](image/Apuntes/1716475891395.png)
+
+The second layer:
+
+![1716475903433](image/Apuntes/1716475903433.png)
+
+Output layer:
+
+![1716475916955](image/Apuntes/1716475916955.png)
+
+Regardless, it’s important not to lose sight of the fact that this is still merely an equation relating input x to output y ′ . Indeed, we can combine equations to get one expression:
+
+![1716475481796](image/Apuntes/1716475481796.png)
+
+although this is admittedly rather diﬀicult to understand.
+
+## Hyperparameters
+
+* The number of hidden units in each layer is referred to as the **width** of the network, the total number of hidden units is a
+  measure of the network’s capacity
+* The number of hidden layers as the depth
+
+We denote the number of layers as K and the number of hidden units in each layer as D1 , D2 , . . . , DK . These are examples of **hyperparameters**. They are quantities chosen before we learn the model parameters
+
+## Matrix Notation
+
+We can describe this formulas 4.7-4.9 with a matrix notation:
+
+For input and activation:
+
+![1716475869704](image/Apuntes/1716475869704.png)
+
+For output:
+
+![1716475978569](image/Apuntes/1716475978569.png)
+
+Or even more compact:
+
+![1716476230384](image/Apuntes/1716476230384.png)
+
+where, in each case, the function a[•] applies the activation function separately to every
+element of its vector input.
+
+## General Formulation
+
+This notation becomes cumbersome for networks with many layers. Hence, from now on, we will describe the vector of hidden units at layer k as hk , the vector of **biases** (intercepts) that contribute to hidden layer k +1 as **βk** , and the **weights** (slopes) that are applied to the k th layer and contribute to the (k+1)th layer as **Ωk**. A general deep network y = f[x, ϕ] with K layers can now be written as:
+
+![1716476478051](image/Apuntes/1716476478051.png)
+
+We can equivalently write the network as a single function:
+
+![1716476622868](image/Apuntes/1716476622868.png)
+
+### Number of linear regions per parameter
+
+### Depth eﬀiciency
+
+Both deep and shallow networks can model arbitrary functions, but some functions can be approximated much more eﬀiciently with deep networks. Functions have been identified that require a shallow network with exponentially more hidden units to achieve an equivalent approximation to that of a deep network. This phenomenon is referred to as the **depth eﬀiciency** of neural networks. This property is also attractive, but it’s not clear that the real-world functions that we want to approximate fall into this category.
+
+### Large, structured inputs
+
+We have discussed fully connected networks where every element of each layer contributes to every element of the subsequent one. However, these are not practical for large structured inputs like images, where the input might comprise ∼ 106 pixels.
+
+The number of parameters would be excessively high, and moreover, we want different parts of the image to be processed similarly; there is no point in independently learning to recognize the same object at every possible position in the image.
+
+The solution is to process local image regions in parallel and then gradually integrate information from increasingly large regions. This kind of local-to-global processing is diﬀicult to specify without using multiple layers.
+
+### Training and generalization
+
+A further possible advantage of deep networks over shallow networks is their ease of fitting; it is usually easier to train moderately deep networks than to train shallow ones. It may be that over-parameterized deep models have a large family of roughly equivalent solutions that are easy to find. However, as we add more hidden layers, training becomes more diﬀicult again, although many methods have been developed to mitigate this problem (see chapter 11).
+
+Deep neural networks also seem to generalize to new data better than shallow ones. In practice, the best results for most tasks have been achieved using networks with tens or hundreds of layers. Neither of these phenomena are well understood, and we return to them in chapter 20.
+
+
+
+---
+
+
+
+# Chapter 5 - Loss functions
