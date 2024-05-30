@@ -4,9 +4,9 @@ Artificial intelligence is concernened with building systems that simulate intel
 
 There are 3 types of machine learning methods:
 
-* **Supervised**:
-* **Unsupervised**:
-* **Reinforcement** learning:
+* **Supervised**
+* **Unsupervised**
+* **Reinforcement** **learning**
 
 ## Supervised Learning
 
@@ -20,7 +20,7 @@ Define a mapping from input to an ouput prediction
 
 ### **Outputs:**
 
-* **Regression** Problem: The model returns a continous number
+* **Regression** **Problem**: The model returns a continous number
 
 Example: Predict the price of a house given the square meters, the amount of bedrooms, the previous value and the amount of parking spots. It will return a value
 
@@ -28,8 +28,8 @@ Example: Predict the price of a house given the square meters, the amount of bed
 
 * **Classification**: The model return the probabilities that the input belongs to each category.
 
-  - Binary classification: Only 2 categories
-  - Muticlass classification: N number of possible categories
+  - **inary** classification: Only 2 categories
+  - **Muticlass** classification: N number of possible categories
 
 Example: Predict the object that appears in a picture
 
@@ -45,11 +45,11 @@ Constructing a model from input data without corresponding output labels. Rather
 
 It can be useful to use this two tools together. For example imagine the case of generating an image from a caption.
 
-Rather than directly map the text input to an image, we can learn a relation between latent variables that explain the text and the latent variables that explain the image.This has three advantages.
-First, we may need fewer text/image pairs to learn this mapping now that the inputs and outputs are lower dimensional.
-Second, we are more likely to generate a plausible-looking image; any sensible values of the latent variables
-should produce something that looks like a plausible example.
-Third, if we introduce randomness to either the mapping between the two sets of latent variables or the mapping from the latent variables to the image, then we can generate multiple images that are all described well by the caption
+Rather than directly map the text input to an image, we can learn a relation between latent variables that explain the text and the latent variables that explain the image. This has three advantages:
+
+- First, we may need fewer text/image pairs to learn this mapping now that the inputs and outputs are lower dimensional.
+- Second, we are more likely to generate a plausible-looking image; any sensible values of the latent variables should produce something that looks like a plausible example.
+- Third, if we introduce randomness to either the mapping between the two sets of latent variables or the mapping from the latent variables to the image, then we can generate multiple images that are all described well by the caption
 
 ## Reinforcement learning
 
@@ -68,8 +68,7 @@ This potent technology will change the world to at least the same extent as elec
 2. **Explainability:** Deep learning systems make decisions, but we do not usually know exactly how or based on what information. They may contain billions of parameters, and there is no way we can understand how they work based on examination
 3. **Weaponizing AI:** All significant technologies have been applied directly or indirectly toward war. Sadly, violent conflict seems to be an inevitable feature of human behavior.
    AI is arguably the most powerful technology ever built and will doubtless be deployed extensively in a military context. Indeed, this is already happening
-4. **Concentrating power:** It is not from a benevolent interest in improving the lot of the human race that the world’s most powerful companies are investing heavily in artifi-
-   cial intelligence. They know that these technologies will allow them to reap enormous profits. Like any advanced technology, deep learning is likely to concentrate power in the hands of the few organizations that control it.
+4. **Concentrating power:** It is not from a benevolent interest in improving the lot of the human race that the world’s most powerful companies are investing heavily in artificial intelligence. They know that these technologies will allow them to reap enormous profits. Like any advanced technology, deep learning is likely to concentrate power in the hands of the few organizations that control it.
 5. **Existential risk:** The major existential risks to the human race all result from technology. Climate change has been driven by industrialization. Nuclear weapons derive from the study of physics. Pandemics are more probable and spread faster because innovations in transport, agriculture, and construction have allowed a larger, denser, and more interconnected population. Artificial intelligence brings new existential risks. We should be very cautious about building systems that are more capable and extensible than human beings.
 
 ---
@@ -84,8 +83,7 @@ When we compute the prediction y from the input x, we call this **inference**
 
 The model also contains **parameters** ϕ. The choice of parameters determines the particular relation between input and output, so we should really write:
 	y = f[x, ϕ].
-When we talk about learning or training a model, we mean that we attempt to find parameters ϕ that make sensible output predictions from the input. We learn these
-parameters using a **training dataset** of I pairs of input and output examples {xi , yi }.
+When we talk about learning or training a model, we mean that we attempt to find parameters ϕ that make sensible output predictions from the input. We learn these parameters using a **training dataset** of I pairs of input and output examples {xi , yi }.
 We aim to select parameters that map each training input to its associated output as closely as possible. We quantify the degree of mismatch in this mapping with the **loss L**. This is a scalar value that summarizes how poorly the model predicts the training outputs from their corresponding inputs for parameters ϕ.
 
 We can treat the loss as a function L[ϕ] of these parameters. When we train the model, we are seeking parameters ϕ̂ that **minimize this loss function:**
@@ -105,8 +103,7 @@ A 1D **linear regression model** describes the relationship between input x and 
 ## Loss
 
 We need a principled approach for deciding which parameters ϕ are better than others. To this end, we assign a numerical value to each choice of parameters that quantifies the degree of mismatch between the model and the data. We term this value the loss; a lower loss means a better fit.
-The mismatch is captured by the deviation between the model predictions f[xi , ϕ] (height of the line at xi ) and the ground truth outputs yi. These deviations are depicted
-as orange dashed lines.
+The mismatch is captured by the deviation between the model predictions f[xi , ϕ] (height of the line at xi ) and the ground truth outputs yi. These deviations are depicted as orange dashed lines.
 
 ![1716462951454](image/Apuntes/1716462951454.png)
 
@@ -133,8 +130,8 @@ One way to do this is to measure the gradient of the surface at the current posi
 
 Having trained the model, we want to know how it will perform in the real world. We do this by computing the loss on a separate set of test data. The degree to which the prediction accuracy generalizes to the test data depends in part on how representative and complete the training data is. However, it also depends on how expressive the model is.
 
-A simple model like a line might not be able to capture the true relationship between input and output. This is known as **underfitting**.
-Conversely, a very expressive model may describe statistical peculiarities of the training data that are atypical and lead to unusual predictions. This is known as **overfitting**.
+- A simple model like a line might not be able to capture the true relationship between input and output. This is known as **underfitting**.
+- Conversely, a very expressive model may describe statistical peculiarities of the training data that are atypical and lead to unusual predictions. This is known as **overfitting**.
 
 ---
 
@@ -217,9 +214,8 @@ although this is admittedly rather diﬀicult to understand.
 
 ## Hyperparameters
 
-* The number of hidden units in each layer is referred to as the **width** of the network, the total number of hidden units is a
-  measure of the network’s capacity
-* The number of hidden layers as the depth
+* The number of hidden units in each layer is referred to as the **width** of the network, the total number of hidden units is a measure of the network’s capacity
+* The number of hidden layers as the **depth**
 
 We denote the number of layers as K and the number of hidden units in each layer as D1 , D2 , . . . , DK . These are examples of **hyperparameters**. They are quantities chosen before we learn the model parameters
 
@@ -272,10 +268,97 @@ A further possible advantage of deep networks over shallow networks is their eas
 
 Deep neural networks also seem to generalize to new data better than shallow ones. In practice, the best results for most tasks have been achieved using networks with tens or hundreds of layers. Neither of these phenomena are well understood, and we return to them in chapter 20.
 
-
-
 ---
 
-
-
 # Chapter 5 - Loss functions
+
+When we train models, we seek the parameters that produce the best possible mapping from input to output for the task we are considering. This chapter defines what is meant by the “best possible” mapping.
+
+A loss function or cost function L[ϕ] returns a single number that describes the mismatch between the model predictions f[xi , ϕ] and their corresponding ground-truth outputs y
+
+## Maximum likelihood
+
+Until now, we have implied that the model directly computes a prediction y. We now shift perspective and consider the model as computing a conditional probability distribution P r(y|x) over possible outputs y given input x
+
+![1716822027840](image/Apuntes/1716822027840.png)![1716822046191](image/Apuntes/1716822046191.png)
+
+We now shift perspective and consider the model as computing a conditional probability distribution P r(y|x) over possible outputs y given input x
+
+The combined probability term is the likelihood of the parameters, and hence equation 5.1 is known as the **maximum likelihood criterion:**
+
+![1716822190081](image/Apuntes/1716822190081.png)
+
+
+Each term P r(yi |f[xi , ϕ]) can be small, so the product of many of these terms can be tiny. It may be diﬀicult to represent this quantity with finite precision arithmetic. Fortunately, we can equivalently maximize the logarithm of the likelihood:
+
+**TRANSFORM INTO LOG**
+
+We apply the property of the logarithm that a if log(a*b) = log(a) + log(b). This makes the operations be a sum of probabilities instead of a multiplication of them
+
+![1717089547046](image/Apuntes/1717089547046.png)
+
+**Why do we do this?**
+
+This log-likelihood criterion is equivalent because the logarithm is a monotonically increasing function: if z > z ′ , then log[z] > log[z ′ ] and vice versa (figure 5.2). It follows that when we change the model parameters ϕ to improve the log-likelihood criterion, we also improve the original maximum likelihood criterion. It also follows that the overall maxima of the two criteria must be in the same place, so the best model parameters ϕ̂ are the same in both cases. However, the log-likelihood criterion has the practical advantage of using a sum of terms, not a product, so representing it with finite precision isn’t problematic.
+
+### Minimum likelihood
+
+**Why is better to look for the minimum loss rather than the maximum?**
+
+Finally, we note that, by convention, model fitting problems are framed in terms of minimizing a loss. To convert the maximum log-likelihood criterion to a minimization problem, we multiply by minus one, which gives us the negative log-likelihood criterion:
+
+![1717089796819](image/Apuntes/1717089796819.png)
+
+which is what forms the final loss function L[ϕ].
+
+
+### Inference
+
+The network no longer directly predicts the outputs y but instead determines a probability distribution over y. When we perform inference, we often want a point estimate rather than a distribution, so we return the maximum of the distribution:
+
+![1717089944317](image/Apuntes/1717089944317.png)
+
+THEORY IDEA OF USING THE SOFTMAX FUNCTION. Where the outputs are switched into probabilities and we select the highest one.
+
+
+## Constructing loss function recipe:
+
+![1717090876436](image/Apuntes/1717090876436.png)
+
+1. Choose a suitable probability distribution P r(y|θ) defined over the domain of the predictions y with distribution parameters θ
+2. Set the machine learning model f[x, ϕ] to predict one or more of these parameters
+3. To train the model, find the network parameters ϕ̂ that minimize the negative log-likelihood loss function over the training dataset pairs {xi , yi }:
+
+   ![1717090916698](image/Apuntes/1717090916698.png)
+4. To perform inference for a new test example x, return either the full distribution P r(y|f[x, ϕ̂]) or the maximum of this distribution.
+
+
+Now we will follow this formula to create some loss functions
+
+
+### Example 1: Univariate regression (Gaussian Distribution)
+
+![1717091193290](image/Apuntes/1717091193290.png)
+
+![1717091730221](image/Apuntes/1717091730221.png)
+
+In Gaussian model predictions, the mean value is always the selected prediction because it is the most probable or likely value. The Gaussian distribution's properties ensure that the highest probability density is at the mean, making it the central and most representative value for predictions. The standard deviation provides additional context about the spread and uncertainty around this mean value.
+
+Now we can have 2 examples:
+
+- **Homoscedastic regression**: (The variance is not take into account)
+- **Heteroscedastic regression:** (The variance is taken into account)
+
+¿What is the difference between them?
+
+- As both probabilities are computed using the same equantion, the predicted results would be equal. But homoscedastic regression would provide us a constant confidence interval for any predicted output (Is not taking into account the variance) while the heteroscedatic regression would know when the output predicted is more likely to be true (having a higher confidence value) and when the predicted output would have less probabilities of being true (having lower confidence value)
+
+
+![1717093129311](image/Apuntes/1717093129311.png)
+
+NOTE: the prediction lines are the same!
+
+Really useful to know how much can we trust in a predicted result
+
+
+### Example 2: Binary classification (Bernoulli distribution)
