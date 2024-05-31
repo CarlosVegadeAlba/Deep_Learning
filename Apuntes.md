@@ -288,7 +288,6 @@ The combined probability term is the likelihood of the parameters, and hence equ
 
 ![1716822190081](image/Apuntes/1716822190081.png)
 
-
 Each term P r(yi |f[xi , ϕ]) can be small, so the product of many of these terms can be tiny. It may be diﬀicult to represent this quantity with finite precision arithmetic. Fortunately, we can equivalently maximize the logarithm of the likelihood:
 
 **TRANSFORM INTO LOG**
@@ -311,7 +310,6 @@ Finally, we note that, by convention, model fitting problems are framed in terms
 
 which is what forms the final loss function L[ϕ].
 
-
 ### Inference
 
 The network no longer directly predicts the outputs y but instead determines a probability distribution over y. When we perform inference, we often want a point estimate rather than a distribution, so we return the maximum of the distribution:
@@ -319,7 +317,6 @@ The network no longer directly predicts the outputs y but instead determines a p
 ![1717089944317](image/Apuntes/1717089944317.png)
 
 THEORY IDEA OF USING THE SOFTMAX FUNCTION. Where the outputs are switched into probabilities and we select the highest one.
-
 
 ## Constructing loss function recipe:
 
@@ -332,11 +329,9 @@ THEORY IDEA OF USING THE SOFTMAX FUNCTION. Where the outputs are switched into p
    ![1717090916698](image/Apuntes/1717090916698.png)
 4. To perform inference for a new test example x, return either the full distribution P r(y|f[x, ϕ̂]) or the maximum of this distribution.
 
-
 Now we will follow this formula to create some loss functions
 
-
-### Example 1: Univariate regression (Gaussian Distribution)
+## Example 1: Univariate regression (Gaussian Distribution)
 
 ![1717091193290](image/Apuntes/1717091193290.png)
 
@@ -353,12 +348,173 @@ Now we can have 2 examples:
 
 - As both probabilities are computed using the same equantion, the predicted results would be equal. But homoscedastic regression would provide us a constant confidence interval for any predicted output (Is not taking into account the variance) while the heteroscedatic regression would know when the output predicted is more likely to be true (having a higher confidence value) and when the predicted output would have less probabilities of being true (having lower confidence value)
 
-
 ![1717093129311](image/Apuntes/1717093129311.png)
 
 NOTE: the prediction lines are the same!
 
 Really useful to know how much can we trust in a predicted result
 
+## Example 2: Binary classification (Bernoulli distribution)
 
-### Example 2: Binary classification (Bernoulli distribution)
+![1717094098732](image/Apuntes/1717094098732.png)
+
+λ can only take values in the range [0, 1], and we cannot guarantee that the network output will lie in this range. Consequently, we pass the network output through a function that maps the real numbers R to [0, 1]. A suitable function is the logistic sigmoid
+
+![1717094242770](image/Apuntes/1717094242770.png)
+
+![1717094189210](image/Apuntes/1717094189210.png)
+
+Hence, we predict the distribution parameter as λ = sig[f[x, ϕ]]. The likelihood is now:
+
+![1717094341244](image/Apuntes/1717094341244.png)
+
+So the loss function therefore would be:
+
+![1717094375028](image/Apuntes/1717094375028.png)
+
+this is known as the **binary cross-entropy loss.**
+
+The transformed model output sig[f[x, ϕ]] predicts the parameter λ of the Bernoulli distribution. This represents the probability that y = 1, and it follows that 1 − λ represents the probability that y = 0. When we perform inference, we may want a point estimate of y, so we set **y = 1 if λ > 0.5 and y = 0 otherwise.**
+
+Example of this mapping:
+
+![1717094477054](image/Apuntes/1717094477054.png)
+
+a) Image is the input, b) is telling us that the sigmoid conversion will be applied. c) Tells us the probabilities of being of class 0 (in solid line) or class 1 in (dashed line)
+
+## Example 3: Muticlass classification (Categorical distribution)
+
+Now we have more than 2 classes (binary), then instead of ussing the bernoulli distribution we will use the **categorical distribution**
+
+![1717147190727](image/Apuntes/1717147190727.png)
+
+As before the probabilities must sum to 1. A good solution for this is ussing the softmax function
+
+![1717147463442](image/Apuntes/1717147463442.png)
+
+Where the exponential functions ensure positivity, and the sum in the denominator ensures that the K numbers sum to one.
+
+An example of how the output would change the output values to probabilities
+
+![1717147266206](image/Apuntes/1717147266206.png)
+
+The highest output would lead into the highest probability. As probably only one class would be choosen at each time, as we are doing classification, we would only pick the class that has the highest probability each time.
+
+
+## Multiple outputs
+
+When we have models that will predict multiple outputs, for example we might want to predict a molecule’s melting and boiling point (a multivariate regression problem)
+
+While it is possible to define multivariate probability distributions and use a neural network to model their parameters as a function of the input, it is more usual to **treat each prediction as independent**
+
+Just as a summary we can have this table with the possible distributions for different problems:
+
+![1717147902831](image/Apuntes/1717147902831.png)
+
+
+## Cross-entropy loss
+
+The cross-entropy loss is equivalent to using negative log-likelihood.
+
+**How It Works?**
+
+1. **True Distribution** : This is usually represented as a one-hot encoded vector where the correct class label is 1 and the rest are 0.
+2. **Predicted Distribution** : This is the probability distribution output by the model, often obtained through a softmax function in the final layer for multi-class classification.
+
+   ![1717150202805](image/Apuntes/1717150202805.png)
+
+![1717150127973](image/Apuntes/1717150127973.png)
+
+
+# Chapter 6. Fitting models
+
+The loss depends on the network parameters, and this chapter considers how to find the parameter values that minimize this loss. This is known as learning the network’s parameters or simply as training or fitting the model. The process is to choose initial parameter values and then iterate the following two steps: (i) compute the derivatives (gradients) of the loss with respect to the parameters, and (ii) adjust the parameters based on the gradients to decrease the loss. After many iterations, we hope to reach the overall minimum of the loss function.
+
+## Gradient Descent
+
+![1717150787984](image/Apuntes/1717150787984.png)
+
+
+### Steps:
+
+1. Set a value for the initial parameters (**initialize** the parameters heuristically)
+2. Compute the **derivatives** of the loss with respect to the parameters:
+
+   ![1717150937056](https://file+.vscode-resource.vscode-cdn.net/home/carlos/Documentos/segundo_cuatri/Deep_Learning/image/Apuntes/1717150937056.png)
+3. Update the parameters according to the rule:
+
+![1717150981665](image/Apuntes/1717150981665.png)
+
+
+### Linear regression example
+
+We have a 1D linear regression model and we choose the least square function.
+
+![1717151248156](image/Apuntes/1717151248156.png) ![1717151258499](image/Apuntes/1717151258499.png)
+
+The derivative of the loss function with respect to the parameters can be decomposed into the sum of the derivatives of the individual contributions:
+
+![1717151345638](image/Apuntes/1717151345638.png)
+
+where these are given by:
+
+![1717151386429](image/Apuntes/1717151386429.png)
+
+### **BASIC EXAMPLE (For a simple 1D Neural Network):**
+
+![1717152552907](image/Apuntes/1717152552907.png)
+
+Initial guesses for the parameters: **w**=**0** and **b=0**.
+
+#### Loss Function
+
+The Mean Squared Error (MSE) loss function is:
+
+![1717152643247](image/Apuntes/1717152643247.png)
+
+For our dataset the values would be:
+![1717152666111](image/Apuntes/1717152666111.png)
+
+The gradient of the loss function **L** with respect to **w** is:
+
+![1717152722113](image/Apuntes/1717152722113.png)
+
+#### Gradient with Respect to **w**
+
+Compue the derivaties term by term
+
+![1717152780461](image/Apuntes/1717152780461.png)
+
+Substitute w=0 and b=0 we have that:
+
+![1717152832207](image/Apuntes/1717152832207.png)![1717152875463](image/Apuntes/1717152875463.png)
+
+Update:
+
+ ![1717152899867](image/Apuntes/1717152899867.png)
+
+#### Gradient with Respect to b
+
+Same proccess but now for bias
+
+Compute the derivaties term by term
+
+![1717155516128](image/Apuntes/1717155516128.png)
+
+Substitute w=0 and b=0 we have that:
+
+![1717155556352](image/Apuntes/1717155556352.png)![1717155590554](image/Apuntes/1717155590554.png)
+
+Update:
+
+![1717155628539](image/Apuntes/1717155628539.png)
+
+We do this over and over for every epoch, updating the values for the weight and the bias
+
+### **MORE GENERIC EXAMPLE (For a 2 layers Neural Network):**
+
+#### Network Structure
+
+* Input layer: One input feature x
+* Hidden Layer: One neuron with a _ activation function
+* Output Layer:
