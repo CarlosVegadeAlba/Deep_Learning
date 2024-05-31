@@ -400,7 +400,6 @@ An example of how the output would change the output values to probabilities
 
 The highest output would lead into the highest probability. As probably only one class would be choosen at each time, as we are doing classification, we would only pick the class that has the highest probability each time.
 
-
 ## Multiple outputs
 
 When we have models that will predict multiple outputs, for example we might want to predict a molecule’s melting and boiling point (a multivariate regression problem)
@@ -410,7 +409,6 @@ While it is possible to define multivariate probability distributions and use a 
 Just as a summary we can have this table with the possible distributions for different problems:
 
 ![1717147902831](image/Apuntes/1717147902831.png)
-
 
 ## Cross-entropy loss
 
@@ -425,7 +423,6 @@ The cross-entropy loss is equivalent to using negative log-likelihood.
 
 ![1717150127973](image/Apuntes/1717150127973.png)
 
-
 # Chapter 6. Fitting models
 
 The loss depends on the network parameters, and this chapter considers how to find the parameter values that minimize this loss. This is known as learning the network’s parameters or simply as training or fitting the model. The process is to choose initial parameter values and then iterate the following two steps: (i) compute the derivatives (gradients) of the loss with respect to the parameters, and (ii) adjust the parameters based on the gradients to decrease the loss. After many iterations, we hope to reach the overall minimum of the loss function.
@@ -433,7 +430,6 @@ The loss depends on the network parameters, and this chapter considers how to fi
 ## Gradient Descent
 
 ![1717150787984](image/Apuntes/1717150787984.png)
-
 
 ### Steps:
 
@@ -444,7 +440,6 @@ The loss depends on the network parameters, and this chapter considers how to fi
 3. Update the parameters according to the rule:
 
 ![1717150981665](image/Apuntes/1717150981665.png)
-
 
 ### Linear regression example
 
@@ -513,8 +508,101 @@ We do this over and over for every epoch, updating the values for the weight and
 
 ### **MORE GENERIC EXAMPLE (For a 2 layers Neural Network):**
 
-#### Network Structure
+TO BE DONE
 
-* Input layer: One input feature x
-* Hidden Layer: One neuron with a _ activation function
-* Output Layer:
+### Gradient descent visualization
+
+![1717159869620](image/Apuntes/1717159869620.png)
+
+### Local minima and saddle points
+
+There are numerous local minima (cyan circles). Here the gradient is zero, and the loss increases if we move in any direction, but we are not at the overall minimum of the function. The point with the lowest loss is known as the global minimum and is depicted by the gray circle.
+If we start in a random position and use gradient descent to go downhill, there is no guarantee that we will wind up at the global minimum and find the best parameters (figure 6.5a). It’s equally or even more likely that the algorithm will terminate in one of the local minima. Furthermore, there is no way of knowing whether there is a better solution elsewhere.
+
+![1717159956327](image/Apuntes/1717159956327.png)
+
+### Gabor model
+
+The Gabor model has two parameters, so we could find the global minimum by either (i) exhaustively searching the parameter space or (ii) repeatedly starting gradient descent from different positions and choosing the result with the lowest loss. However, neural network models can have millions of parameters, so neither approach is practical.
+
+## Stochastic gradient descent
+
+To scape local minimas and make the algorithm more probable to reach the global minimum we add some noise to the gradient descent
+
+#### Batches and epochs
+
+The mechanism for introducing randomness is simple. At each iteration, the algorithm chooses a random subset of the training data and computes the gradient from these examples alone. This subset is known as a **minibatch or batch** for short
+
+A single pass through the entire training dataset is referred to as an **epoch**
+
+A batch may be as small as a single example or as large as the whole dataset. The latter case is called **full-batch gradient descent** and is identical to regular (non-stochastic) gradient descent
+
+#### Properties
+
+SGD does not necessarily “converge” in the traditional sense. However, the hope is
+that when we are close to the global minimum, all the data points will be well described
+by the model
+
+In practice, SGD is often applied with a learning rate schedule. The learning rate α starts at a high value and is decreased by a constant factor every N epochs. The logic is that in the early stages of training, we want the algorithm to explore the parameter space, jumping from valley to valley to find a sensible region
+
+
+## Momentum
+
+A common modification to stochastic gradient descent is to add a momentum term. We update the parameters with a weighted combination of the gradient computed from the current batch and the direction moved in the previous step:
+
+The effective learning rate increases if all these gradients are aligned over multiple iterations but decreases if the gradient direction repeatedly
+changes as the terms in the sum cancel out. The overall effect is a smoother trajectory and reduced oscillatory behavior in valleys
+
+![1717160842460](image/Apuntes/1717160842460.png)
+
+The momentum path is way more smooth and it helps improve the efficiency and effectiveness of the training process. It accelerates convergence, reduces oscillations, and can assist in escaping local minima, leading to better performance of the neural network model
+
+## Adam (Adaptive Moment Estimation)
+
+#### Key Features of Adam
+
+1. **Adaptive Learning Rates** : Adam computes individual adaptive learning rates for different parameters based on the estimates of the first and second moments of the gradients.
+2. **Momentum** : Adam incorporates momentum by using moving averages of the gradient (first moment) to stabilize and accelerate the convergence.
+3. **Bias Correction** : Adam includes bias correction terms to counteract the initial bias that arises when estimating the moments, particularly at the beginning of training.
+
+![1717161229711](image/Apuntes/1717161229711.png)
+
+## Training algorithm hyperparameters
+
+The choices of learning algorithm, batch size, learning rate schedule, and momentum coeﬀicients are all considered hyperparameters of the training algorithm; these directly affect the final model performance but are distinct from the model parameters. Choosing these can be more art than science, and it’s common to train many models with different  hyperparameters and choose the best one. This is known as **hyperparameter search**
+
+
+# Chapter 7. Gradients and initialization
+
+The basic approach is to choose initial parameters randomly and then make a series of small changes that decrease the loss on average. Each change is
+based on the gradient of the loss with respect to the parameters at the current position. 
+
+This chapter discusses two issues that are specific to neural networks. First, we consider how to calculate the gradients eﬀiciently. This is a serious challenge since the largest models at the time of writing have ∼1012 parameters, and the gradient needs to be computed for every parameter at every iteration of the training algorithm. Second, we consider how to initialize the parameters. If this is not done carefully, the initial losses and their gradients can be extremely large or small. In either case, this impedes the training process.
+
+
+
+# Chapter 8. Measuring performance
+
+
+
+
+# Chapter 9. Regularization
+
+
+
+
+# Chapter 10. Convolutional networks
+
+
+
+# Chapter 11. Residual networks
+
+
+
+
+# Chapter 12. Transformers
+
+
+
+
+# Chapter 20. Why does deep learning work?
