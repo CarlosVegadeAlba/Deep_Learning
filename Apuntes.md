@@ -599,6 +599,8 @@ The vanishing gradient and exploding gradient problems are two common issues enc
 
   ![1717438249419](image/Apuntes/1717438249419.png)
 
+---
+
 # Chapter 8. Measuring performance
 
 This chapter considers how to measure the performance of the trained models. With suﬀicient capacity (i.e., number of hidden units), a neural network model will often perform perfectly on the training data. However, this does not necessarily mean it will
@@ -632,7 +634,6 @@ For example, the three-region neural network model cannot exactly describe the q
 
 We have limited training examples, and there is no way to distinguish systematic changes in the underlying function from noise in the underlying data. When we fit a model, we do not get the closest possible approximation to the true underlying function. Indeed, for different training datasets, the result will be slightly different each time. This additional source of variability in the fitted function is termed variance (figure 8.5c). In practice, there might also be additional variance due to the stochastic learning algorithm, which does not necessarily converge to the same solution each time.
 
-
 ## Reducing error
 
 ### Reducing variance
@@ -665,13 +666,87 @@ The process of finding the best hyperparameters is termed hyperparameter search 
 
 Hyperparameters are typically chosen empirically; we train many models with different hyperparameters on the same training set, measure their performance, and retain the best model in the validation set.
 
+---
 
 # Chapter 9. Regularization
 
+This chapter discusses regularization techniques. These are a family of methods that reduce the generalization gap between training and test performance. Strictly speaking, regularization involves adding explicit terms to the loss function that favor certain parameter choices. However, in machine learning, this term is commonly used to refer to any strategy that improves generalization.
+
+## L2 regularization
+
+L2 regularization, also known as Ridge Regression or weight decay, is a technique used to prevent overfitting in machine learning models by penalizing large weights.
+
+#### How It Works:
+
+* **Penalty Term** : L2 regularization adds a penalty term to the loss function of the model. This penalty is proportional to the sum of the squares of the model parameters (weights).
+* **Modified Loss Function** : The new loss function with L2 regularization becomes:
+
+  ![1717440296901](image/Apuntes/1717440296901.png)
+  where **L** is the original loss (e.g., mean squared error), **λ** is the regularization strength (a hyperparameter), and **w**i are the weights of the model.
+
+#### Benefits:
+
+1. **Prevents Overfitting** : By penalizing large weights, L2 regularization encourages the model to keep the weights small, which can help in reducing overfitting and improving generalization to new data.
+2. **Smooths the Model** : Smaller weights often correspond to a smoother and less complex model, which is less likely to overfit the training data.
+
+---
+
+## Implicit Regularization
+
+Implicit regularization refers to the natural regularizing effects that arise during the training process of machine learning models, especially in deep learning, without explicitly adding regularization terms to the loss function.
+
+#### Key Points:
+
+1. **Optimization Algorithms** :
+
+* **Stochastic Gradient Descent (SGD)** : The noise in SGD updates prevents overfitting by avoiding sharp minima, promoting better generalization.
+
+1. **Model Architecture** :
+
+* **Overparameterization** : Surprisingly, models with more parameters than training samples can generalize well due to the implicit regularization effects of the training process.
+* **Activation Functions** : Choices like ReLU can guide the training dynamics to favor simpler solutions.
+
+1. **Early Stopping** :
+
+* Halting training when validation performance degrades helps prevent overfitting.
+
+1. **Weight Initialization** :
+
+* Proper initialization affects training dynamics, leading to better generalization.
+
+## Heuristics to improve performance
+
+* **Ensembling:**
+
+  * Build several models and average their predictions. A group of such models is known as an ensemble. This technique reliably improves test performance at the cost of training and storing multiple models and performing inference multiple times.
+    The models can be combined by taking the mean of the outputs (for regression problems) or the mean of the pre-softmax activations (for classification problems). The assumption is that model errors are independent and will cancel out. Alternatively, we can take the median of the outputs (for regression problems) or the most frequent predicted class (for classification problems) to make the predictions more robust.
+* **Dropout**
+
+  * Dropout randomly clamps a subset (typically 50%) of hidden units to zero at each iteration of SGD. This makes the network less dependent on any given hidden unit and encourages the weights to have smaller magnitudes so that the change in the function due to the presence or absence of the hidden unit is reduced.
+    At test time, we can run the network as usual with all the hidden units active; however, the network now has more hidden units than it was trained with at any given iteration, so we multiply the weights by one minus the dropout probability to compensate.
+    This is known as the weight scaling inference rule. A different approach to inference is to use Monte Carlo dropout, in which we run the network multiple times with different random subsets of units clamped to zero (as in training) and combine the results. This is closely related to ensembling in that every random version of the network is a different model; however, we do not have to train or store multiple networks here
+* **Applying noise**
+
+  ![1717440987983](image/Apuntes/1717440987983.png)
+* **Bayesian inference**
+* **Self-supervised learning**
+
+  * In **generative self-supervised learning**, part of each data example is masked, and the secondary task is to predict the missing part. For example, we might use a corpus of unlabeled images and a secondary task that aims to **inpaint** (fill in) missing parts of the image. Similarly, we might use a large corpus of text and mask some words. We train the network to predict the missing words and then fine-tune it for the actual language task we are interested in
+  * In **contrastive self-supervised learning**, pairs of examples with commonalities are compared to unrelated pairs. For images, the secondary task might be to identify whether a pair of images are transformed versions of one another or are unconnected. For text, the secondary task might be to determine whether two sentences followed one another in the original document. Sometimes, the precise relationship between a connected pair must be identified
+* **Augmentation:** expand the dataset
+
+  ![1717441614737](image/Apuntes/1717441614737.png)
+
 # Chapter 10. Convolutional networks
+
+---
 
 # Chapter 11. Residual networks
 
+---
+
 # Chapter 12. Transformers
+
+---
 
 # Chapter 20. Why does deep learning work?
