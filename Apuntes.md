@@ -739,6 +739,86 @@ Implicit regularization refers to the natural regularizing effects that arise du
 
 # Chapter 10. Convolutional networks
 
+This chapter describes convolutional layers, which are mainly used for processing image data. Images have three properties that suggest the need for specialized model architecture:
+
+- First, they are high-dimensional. A typical image for a classification task contains 224×224 RGB values (i.e., 150,528 input dimensions). Hidden layers in fully connected networks are generally larger than the input size, so even for a shallow network, the number of weights would exceed 150, 5282 , or 22 billion. This poses obvious practical problems in terms of the required training data, memory, and computation.
+- Second, nearby image pixels are statistically related. However, fully connected networks have no notion of “nearby” and treat the relationship between every input equally. If the pixels of the training and test images were randomly permuted in the same way, the network could still be trained with no practical difference.
+- Third, the interpretation of an image is stable under geometric transformations. An image of a tree is still an image of a tree if we shift it leftwards by a few pixels. However, this shift changes every input to the network. Hence, a fully connected model must learn the patterns of pixels that signify a tree separately at every position, which is clearly ineﬀicient.
+
+Convolutional layers process each local image region independently, using parameters shared across the whole image. They use fewer parameters than fully connected layers, exploit the spatial relationships between nearby pixels, and don’t have to re-learn the interpretation of the pixels at every position. A network predominantly consisting of convolutional layers is known as a convolutional neural network or CNN.
+
+A function f[x] of an image x is equivariant or covariant to a transformation t[x] if:
+
+![1717447766475](image/Apuntes/1717447766475.png)
+
+Convolutional layers are network layers based on the **convolution** operation
+
+![1717447738510](image/Apuntes/1717447738510.png)
+
+## Stride, kernel size, and dilation
+
+- **Stride**: Every x neurons we apply a convolution
+- **Kernel size**: The amount of neurons that will be implied in the convolution
+- **Dilation**: How close are the neurons to the center point
+
+The **receptive field** of a hidden unit in the network is the region of the original input that feeds into it
+
+## Padding
+
+Padding in neural networks refers to the addition of extra pixels (usually zeros) around the input data (such as images) to control the spatial dimensions of the output after applying convolutional layers.
+
+Two tipycal approaches:
+
+- **Zero Padding**: assumes the input is zero outside its valid range
+- **Valid convolutions:** discard the output positions where the kernel exceeds the range of input positions.
+  - Advantage of introducing no extra information at the edges of the input..
+  - Disadvantage that the representation decreases in size.
+
+## Channels
+
+It is usual to compute several convolutions in parallel. Each convolution produces a new set of hidden variables, termed a **feature map** or **channel**.
+
+![1717448200943](image/Apuntes/1717448200943.png)
+
+![1717448836910](image/Apuntes/1717448836910.png)
+
+## Improvements of Convolutional layers
+
+![1717448312705](image/Apuntes/1717448312705.png)
+
+The fully connected network has to learn what each digit template looks like at every position. In contrast, the convolutional network shares information across positions and hence learns to identify each category more accurately. Another way of thinking about this is that when we train the convolutional network, we search through a smaller family of input/output mappings, all of which are plausible. Alternatively, the convolutional structure can be considered a regularizer that applies an infinite penalty to most of the solutions that a fully connected network can describe.
+
+## Downsampling and upsampling
+
+![1717448924847](image/Apuntes/1717448924847.png)
+
+#### - **Downsampling**: Enconder (scaling down)
+
+- **Max pooling**: retains the maximum of the input values
+- **Mean pooling or average pooling**: averages the inputs
+- **Sub sampling**: We retain one input of all
+
+  ![1717448633277](image/Apuntes/1717448633277.png)
+
+#### - Upsampling: Decoder (scaling them back up)
+
+- **Duplicate**
+- **Unpooling**: undo the maxpooling
+- **Interpolation**: We retain one input of all
+
+![1717448724703](image/Apuntes/1717448724703.png)
+
+## Object detection
+
+The goal is to identify and localize multiple objects within the image. An early method based on convolutional networks was **You Only Look Once**, or **YOLO** for short.
+
+![1717449015745](image/Apuntes/1717449015745.png)
+
+### Semantic segmentation
+
+Assign a label to each pixel according to the object that it belongs to or no label if that pixel does not correspond to anything in the training database
+
+
 ---
 
 # Chapter 11. Residual networks
