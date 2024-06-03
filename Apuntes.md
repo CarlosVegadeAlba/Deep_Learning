@@ -28,7 +28,7 @@ Example: Predict the price of a house given the square meters, the amount of bed
 
 * **Classification**: The model return the probabilities that the input belongs to each category.
 
-  - **inary** classification: Only 2 categories
+  - **Binary** classification: Only 2 categories
   - **Muticlass** classification: N number of possible categories
 
 Example: Predict the object that appears in a picture
@@ -545,7 +545,6 @@ by the model
 
 In practice, SGD is often applied with a learning rate schedule. The learning rate α starts at a high value and is decreased by a constant factor every N epochs. The logic is that in the early stages of training, we want the algorithm to explore the parameter space, jumping from valley to valley to find a sensible region
 
-
 ## Momentum
 
 A common modification to stochastic gradient descent is to add a momentum term. We update the parameters with a weighted combination of the gradient computed from the current batch and the direction moved in the previous step:
@@ -571,38 +570,43 @@ The momentum path is way more smooth and it helps improve the efficiency and eff
 
 The choices of learning algorithm, batch size, learning rate schedule, and momentum coeﬀicients are all considered hyperparameters of the training algorithm; these directly affect the final model performance but are distinct from the model parameters. Choosing these can be more art than science, and it’s common to train many models with different  hyperparameters and choose the best one. This is known as **hyperparameter search**
 
-
 # Chapter 7. Gradients and initialization
 
 The basic approach is to choose initial parameters randomly and then make a series of small changes that decrease the loss on average. Each change is
-based on the gradient of the loss with respect to the parameters at the current position. 
+based on the gradient of the loss with respect to the parameters at the current position.
 
 This chapter discusses two issues that are specific to neural networks. First, we consider how to calculate the gradients eﬀiciently. This is a serious challenge since the largest models at the time of writing have ∼1012 parameters, and the gradient needs to be computed for every parameter at every iteration of the training algorithm. Second, we consider how to initialize the parameters. If this is not done carefully, the initial losses and their gradients can be extremely large or small. In either case, this impedes the training process.
 
+## Toy Example (Another backpropagation example as in Chapter 6)
 
+![1717436811639](image/Apuntes/1717436811639.png)
+
+## Parameter Initialization
+
+The vanishing gradient and exploding gradient problems are two common issues encountered when training deep neural networks, particularly those with many layers, such as recurrent neural networks (RNNs) and deep feedforward neural networks.
+
+### Vanishing Gradient Problem
+
+* **Issue** : Gradients become very small, slowing down or stopping learning.
+* **Cause** : Activation functions like sigmoid/tanh squash values, and gradients shrink through layers.
+* **Solution** : Use ReLU activation, proper weight initialization (e.g., He or Xavier), batch normalization, and architectures like ResNets.
+
+### Exploding Gradient Problem
+
+* **Issue** : Gradients become very large, causing unstable training and large weight updates.
+* **Cause** : Large activation derivatives or poorly initialized weights.
+* **Solution** : Use gradient clipping, proper weight initialization, regularization, and appropriate activation functions.
+
+  ![1717438249419](image/Apuntes/1717438249419.png)
 
 # Chapter 8. Measuring performance
 
-
-
-
 # Chapter 9. Regularization
-
-
-
 
 # Chapter 10. Convolutional networks
 
-
-
 # Chapter 11. Residual networks
 
-
-
-
 # Chapter 12. Transformers
-
-
-
 
 # Chapter 20. Why does deep learning work?
