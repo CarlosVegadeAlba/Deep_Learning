@@ -818,10 +818,74 @@ The goal is to identify and localize multiple objects within the image. An early
 
 Assign a label to each pixel according to the object that it belongs to or no label if that pixel does not correspond to anything in the training database
 
-
 ---
 
 # Chapter 11. Residual networks
+
+This chapter introduces residual blocks. Here, each network layer computes an additive change to the current representation instead of transforming it directly. This allows deeper networks to be trained but causes an exponential increase in the activation magnitudes at initialization. Residual blocks employ batch normalization to compensate for this, which re-centers and rescales the activations at each layer. Residual blocks with batch normalization allow much deeper networks to be trained, and these networks improve performance across a variety of tasks. Architectures that combine residual blocks to tackle image classification, medical image segmentation, and human pose estimation are described.
+
+#### Limitations of sequential processing
+
+In principle, we can add as many layers as we want, and in the previous chapter, we saw that adding more layers to a convolutional network does improve performance.
+However, image classification performance decreases again as further layers are added (figure 11.2). This is surprising since models generally perform
+better as more capacity is added. Indeed, the decrease is present for both the training set and the test set, which implies that the problem is training deeper networks rather than the inability of deeper networks to generalize.
+
+![1717449471617](image/Apuntes/1717449471617.png)
+
+## Residual connections and residual blocks
+
+**Residual** or skip **connections** are branches in the computational path, whereby the input to each network layer f[•] is added back to the output.
+This means that deep networks can add more information without loosing the simpler model.
+
+![1717449565843](image/Apuntes/1717449565843.png)
+
+## Exploding gradients in residual networks
+
+Without careful initialization, the magnitudes of the intermediate values during the forward pass of backpropagation can increase or decrease exponentially. Similarly, the gradients during the backward pass can explode or vanish as we move backward through the network.
+
+## Batch normalization
+
+**Batch normalization** or **BatchNormShifts** and rescales each activation h so that its mean and variance across the batch B become values that are learned during training. It normalizes the input of each layer by adjusting and scaling the activations.
+
+#### How It Works:
+
+1. **Normalization** : For each mini-batch, compute the mean and variance of the activations.
+2. **Scale and Shift** : Normalize the activations and then apply a scale (**γ**) and shift (**β**) parameter to maintain the model's capacity to represent the data.
+   ![1717450094919](image/Apuntes/1717450094919.png)
+   where **x** is the activation, **μ** is the mean, **σ**2 is the variance, and **ϵ** is a small constant to prevent division by zero.
+
+#### Benefits:
+
+1. **Accelerates Training** : Reduces the internal covariate shift by keeping the distribution of inputs to each layer more stable, allowing for higher learning rates.
+2. **Improves Generalization (Regularization)** : Acts as a regularizer, reducing the need for other regularization techniques such as dropout.
+3. **Mitigates Vanishing/Exploding Gradients** : By normalizing the inputs, it helps keep the gradients in a reasonable range, which is crucial for deep networks.
+4. **Stable forward propagation**
+5. **Higher learning rates:**
+
+## Common residual architectures
+
+### ResNet
+
+Residual blocks were first used in convolutional networks for image classification. The resulting networks are known as residual networks, or ResNets for short. In ResNets, each residual block contains a batch normalization operation, a ReLU activation function, and a convolutional layer. This is followed by the same sequence again before being added back to the input (figure 11.7a). Trial and error have shown that this order of operations works well for image classification.
+
+![1717450550815](image/Apuntes/1717450550815.png)
+
+![1717450386178](image/Apuntes/1717450386178.png)
+
+### DenseNet
+
+![1717450749889](image/Apuntes/1717450749889.png)
+
+### U-Nets and hourglass networks
+
+**encoder-decoder or hourglass structure**
+
+![1717450700219](image/Apuntes/1717450700219.png)
+
+## Why do nets with residual connections perform so well?
+
+Networks with residual connections perform well due to their ability to mitigate the vanishing gradient problem, simplify the learning process through residual learning, enhance information flow, and ease optimization. These factors contribute to their superior performance and ability to train very deep networks effectively.
+
 
 ---
 
