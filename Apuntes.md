@@ -601,6 +601,71 @@ The vanishing gradient and exploding gradient problems are two common issues enc
 
 # Chapter 8. Measuring performance
 
+This chapter considers how to measure the performance of the trained models. With suﬀicient capacity (i.e., number of hidden units), a neural network model will often perform perfectly on the training data. However, this does not necessarily mean it will
+generalize well to new test data.
+We will see that the test errors have three distinct causes and that their relative contributions depend on (i) the inherent uncertainty in the task, (ii) the amount of training data, and (iii) the choice of model. The latter dependency raises the issue of hyperparameter search.
+
+**Example of adding noise to the train data:**
+
+![1717438548369](image/Apuntes/1717438548369.png)
+
+**What happends when the generalization performance reaches the maximum capacity:**
+
+![1717438650767](image/Apuntes/1717438650767.png)
+
+## Sources of error:
+
+![1717438774772](image/Apuntes/1717438774772.png)
+
+### Noise
+
+The data generation process includes the addition of noise, so there are multiple possible valid outputs y for each input x.
+Noise may arise because there is a genuine stochastic element to the data generation process, because some of the data are mislabeled, or because there are further explanatory variables that were not observed.
+However, noise is usually a fundamental limitation on the possible test performance.
+
+### Bias
+
+The model is not flexible enough to fit the true function perfectly.
+For example, the three-region neural network model cannot exactly describe the quasi-sinusoidal function, even when the parameters are chosen optimally (figure 8.5b).
+
+### Variance
+
+We have limited training examples, and there is no way to distinguish systematic changes in the underlying function from noise in the underlying data. When we fit a model, we do not get the closest possible approximation to the true underlying function. Indeed, for different training datasets, the result will be slightly different each time. This additional source of variability in the fitted function is termed variance (figure 8.5c). In practice, there might also be additional variance due to the stochastic learning algorithm, which does not necessarily converge to the same solution each time.
+
+
+## Reducing error
+
+### Reducing variance
+
+We can reduce the variance by increasing the quantity of training data. This averages out the inherent noise and ensures that the input space is well sampled.
+
+![1717439202271](image/Apuntes/1717439202271.png)
+
+### Reducing bias
+
+This is usually done by increasing the model capacity. For neural networks, this means adding more hidden units and/or hidden layers.
+
+### Bias-variance trade-off
+
+However, figures 8.7d–f show an unexpected side-effect of increasing the model capacity. For a fixed-size training dataset, the variance term increases as the model capacity increases. Consequently, increasing the model capacity does not necessarily reduce the test error. This is known as the bias-variance trade-off.
+
+![1717439281801](image/Apuntes/1717439281801.png)
+
+## Double descent
+
+1. **Initial Descent** : As model complexity (e.g., number of parameters) increases, the model's error on both training and test data initially decreases. This is the traditional bias-variance tradeoff region where increasing complexity allows the model to fit the training data better, reducing bias.
+2. **Peak and Increase** : Beyond a certain point, further increasing model complexity leads to an increase in test error, while training error continues to decrease or remains low. This corresponds to overfitting, where the model fits the training data too well, capturing noise and spurious patterns, thus increasing variance and test error.
+3. **Second Descent** : Surprisingly, with even further increases in model complexity, the test error begins to decrease again. In this regime, the model becomes sufficiently overparameterized, and mechanisms such as implicit regularization (through the training algorithm) help the model generalize better, leading to improved test performance.
+
+   ![1717439592449](image/Apuntes/1717439592449.png)
+
+## Choosing hyperparameters
+
+The process of finding the best hyperparameters is termed hyperparameter search or (when focused on network structure) neural architecture search.
+
+Hyperparameters are typically chosen empirically; we train many models with different hyperparameters on the same training set, measure their performance, and retain the best model in the validation set.
+
+
 # Chapter 9. Regularization
 
 # Chapter 10. Convolutional networks
