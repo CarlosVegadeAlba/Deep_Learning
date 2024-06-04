@@ -886,10 +886,79 @@ Residual blocks were first used in convolutional networks for image classificati
 
 Networks with residual connections perform well due to their ability to mitigate the vanishing gradient problem, simplify the learning process through residual learning, enhance information flow, and ease optimization. These factors contribute to their superior performance and ability to train very deep networks effectively.
 
-
 ---
 
 # Chapter 12. Transformers
+
+This chapter introduces transformers. These were initially targeted at natural language processing (NLP) problems, where the network input is a series of high-dimensional embeddings representing words or word fragments. Language datasets share some of the characteristics of image data. The number of input variables can be very large, and the statistics are similar at every position; it’s not sensible to re-learn the meaning of the word dog at every possible position in a body of text. However, language datasets have the complication that text sequences vary in length, and unlike images, there is no easy way to resize them.
+
+## Processing text data
+
+In the parlance of transformers, the former word should pay **attention** to the latter. This implies that there must be connections between the words and that the strength of these connections will depend on the words themselves.
+
+
+![1717485916314](image/Apuntes/1717485916314.png)
+
+Attention layers are a much more sophisticated and dynamic fully connected layer.
+
+### Fully Connected Layer vs Attention layer
+
+![1717486271785](image/Apuntes/1717486271785.png) vs  ![1717486284300](image/Apuntes/1717486284300.png)
+
+
+In the context of self-attention mechanisms in transformers, the matrices 𝑄**Q** (Queries), 𝐾**K** (Keys), and 𝑉**V** (Values) play distinct and critical roles. Let's break down their functions:
+
+#### Queries (Q)
+
+* The query matrix 𝑄**Q** is derived from the input sequence 𝑋**X** and is used to match with the keys.
+* Each query vector represents a set of features describing the input at a particular position.
+* Queries are used to calculate the attention scores by comparing them with keys.
+
+#### Keys (K)
+
+* The key matrix 𝐾**K** is also derived from the input sequence 𝑋**X**.
+* Each key vector represents a set of features describing the input at a particular position.
+* Keys are used to calculate the attention scores by comparing them with queries.
+
+#### Values (V)
+
+* The value matrix 𝑉**V** is derived from the input sequence 𝑋**X**.
+* Each value vector represents the actual content or information of the input at a particular position.
+* Values are weighted and summed based on the attention scores to produce the final output.
+
+#### Process Breakdown
+
+1. **Compute Queries, Keys, and Values** :
+   ![1717486373995](image/Apuntes/1717486373995.png)
+2. **Calculate Attention Scores** :
+   The attention scores are computed by taking the dot product of the queries and keys, then scaling by the dimension of the keys, and applying a softmax function:
+   ![1717486464982](image/Apuntes/1717486464982.png)
+3. **Weighted Sum of Values** :
+   The attention scores are used to create a weighted sum of the value vectors:
+   ![1717486476620](image/Apuntes/1717486476620.png)
+   This output is a combination of the input values, weighted by their relevance as determined by the attention scores.
+
+### Intuitive Explanation
+
+* **Queries** are like **questions** about the input data.
+* **Keys** are potential **matches** for these questions.
+* **Values** are the information you want to **retrieve** or **focus** on.
+* The process involves matching each query with all keys to find out how relevant each key is to the query. Based on this relevance (attention scores), the corresponding values are aggregated to form the output.
+
+### Example
+
+Consider an input sequence of words:
+
+* "The cat sat on the mat."
+
+For each word:
+
+* **Queries** might represent "What am I looking for?"
+* **Keys** might represent "What do I have?"
+* **Values** might represent "What information do I carry?"
+
+The attention mechanism calculates how much focus each word (key) should get in relation to the current word (query), and then combines the information (values) accordingly.
+
 
 ---
 
